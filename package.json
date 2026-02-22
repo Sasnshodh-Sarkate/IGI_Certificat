@@ -1,0 +1,20 @@
+{
+  "name": "igi-cert-mgmt",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev:server": "npm --prefix apps/server run start:dev",
+    "dev:web": "npm --prefix apps/web run dev",
+    "dev": "npx -y concurrently \"npm run dev:server\" \"npm run dev:web\"",
+    "build": "npm run build --workspaces",
+    "test": "npm run test --workspaces",
+    "clean": "if exist apps\\web\\.next rmdir /s /q apps\\web\\.next && if exist apps\\server\\dist rmdir /s /q apps\\server\\dist"
+  },
+  "devDependencies": {
+    "@types/node": "25.2.3",
+    "concurrently": "^9.2.1"
+  }
+}
