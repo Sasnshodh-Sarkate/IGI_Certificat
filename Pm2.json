@@ -1,0 +1,29 @@
+{
+    "apps": [
+        {
+            "name": "igs-server",
+            "script": "dist/main.js",
+            "cwd": "apps/server",
+            "env": {
+                "NODE_ENV": "production"
+            },
+            "instances": "max",
+            "exec_mode": "cluster",
+            "watch": false,
+            "max_memory_restart": "1G"
+        },
+        {
+            "name": "igs-web",
+            "script": "npm",
+            "args": "run start",
+            "cwd": "apps/web",
+            "env": {
+                "NODE_ENV": "production"
+            },
+            "instances": "max",
+            "exec_mode": "cluster",
+            "watch": false,
+            "max_memory_restart": "1G"
+        }
+    ]
+}

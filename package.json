@@ -11,6 +11,7 @@
     "dev": "npx -y concurrently \"npm run dev:server\" \"npm run dev:web\"",
     "build": "npm run build --workspaces",
     "test": "npm run test --workspaces",
+    "start:prod": "pm2 start Pm2.json",
     "clean": "if exist apps\\web\\.next rmdir /s /q apps\\web\\.next && if exist apps\\server\\dist rmdir /s /q apps\\server\\dist"
   },
   "devDependencies": {

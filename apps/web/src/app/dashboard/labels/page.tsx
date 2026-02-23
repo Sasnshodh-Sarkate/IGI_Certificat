@@ -19,7 +19,7 @@ import {
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:3001';
 
-export default function LabelsPage() {
+export default function LabelsPage({ onMenuClick }: { onMenuClick?: () => void }) {
     const [uploading, setUploading] = useState(false);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -147,10 +147,11 @@ export default function LabelsPage() {
             <Header
                 title="Label Generator"
                 subtitle="Generate and print stock labels from Excel"
+                onMenuClick={onMenuClick}
             />
 
-            <div className="p-8 space-y-8 w-full max-w-2xl mx-auto">
-                <Card className="p-10 border-slate-200 shadow-xl shadow-slate-200/40 bg-white rounded-[2rem] overflow-hidden flex flex-col items-center justify-center text-center space-y-6">
+            <div className="p-4 md:p-8 space-y-8 w-full max-w-2xl mx-auto flex-1 flex flex-col items-center justify-center">
+                <Card className="p-6 md:p-10 border-slate-200 shadow-xl shadow-slate-200/40 bg-white rounded-[1.5rem] md:rounded-[2rem] overflow-hidden flex flex-col items-center justify-center text-center space-y-6 w-full">
                     <div className="w-20 h-20 bg-indigo-50 rounded-2xl flex items-center justify-center shadow-inner shrink-0 text-indigo-500">
                         <FileText className="w-10 h-10" />
                     </div>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
 import { useEffect, useState, useCallback } from 'react';
@@ -49,7 +50,7 @@ interface CertificateJob {
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:3001';
 
-export default function DashboardPage() {
+export default function DashboardPage({ onMenuClick }: { onMenuClick?: () => void }) {
     const [jobs, setJobs] = useState<CertificateJob[]>([]);
     const [uploading, setUploading] = useState(false);
     const [loadingJobs, setLoadingJobs] = useState(true);
@@ -280,14 +281,14 @@ export default function DashboardPage() {
 
     if (fetchError && jobs.length === 0) {
         return (
-            <div className="flex-1 flex items-center justify-center bg-slate-50 p-8">
-                <Card className="max-w-md w-full p-10 text-center space-y-6 border-none shadow-2xl rounded-[2rem]">
-                    <div className="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mx-auto ring-8 ring-red-50">
-                        <WifiOff className="w-10 h-10 text-red-500" />
+            <div className="flex-1 flex items-center justify-center bg-slate-50 p-4 md:p-8">
+                <Card className="max-w-md w-full p-6 md:p-10 text-center space-y-6 border-none shadow-2xl rounded-[1.5rem] md:rounded-[2rem]">
+                    <div className="w-16 h-16 md:w-20 md:h-20 bg-red-50 rounded-full flex items-center justify-center mx-auto ring-8 ring-red-50">
+                        <WifiOff className="w-8 h-8 md:w-10 md:h-10 text-red-500" />
                     </div>
                     <div className="space-y-2">
-                        <h2 className="text-xl font-black text-slate-900 uppercase">Connection Error</h2>
-                        <p className="text-slate-500 text-sm font-medium">{fetchError}</p>
+                        <h2 className="text-lg md:text-xl font-black text-slate-900 uppercase">Connection Error</h2>
+                        <p className="text-slate-500 text-xs md:text-sm font-medium">{fetchError}</p>
                     </div>
                     <Button
                         onClick={() => { setLoadingJobs(true); fetchJobs(true); }}
@@ -307,12 +308,14 @@ export default function DashboardPage() {
                 subtitle="Manage and process diamond certificates"
                 onRefresh={() => fetchJobs(true)}
                 refreshing={loadingJobs}
+                onMenuClick={onMenuClick}
                 actions={
                     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                         <DialogTrigger asChild>
-                            <Button className="bg-indigo-600 hover:bg-indigo-700 text-white font-black px-6 gap-3 rounded-xl shadow-lg shadow-indigo-600/20 transition-all active:scale-95 h-10 border-none">
-                                <FileUp className="w-4.5 h-4.5" />
-                                Upload File
+                            <Button className="bg-indigo-600 hover:bg-indigo-700 text-white font-black px-4 md:px-6 gap-2 md:gap-3 rounded-xl shadow-lg shadow-indigo-600/20 transition-all active:scale-95 h-10 border-none">
+                                <FileUp className="w-4 h-4 md:w-4.5 md:h-4.5" />
+                                <span className="hidden sm:inline">Upload File</span>
+                                <span className="sm:hidden text-xs">Upload</span>
                             </Button>
                         </DialogTrigger>
                         <DialogContent className="sm:max-w-[480px] p-0 overflow-hidden border-none rounded-[2rem] shadow-2xl">
@@ -370,17 +373,17 @@ export default function DashboardPage() {
                 }
             />
 
-            <div className="p-8 space-y-8 flex-1">
-                <Card className="border-slate-200 shadow-xl shadow-slate-200/40 bg-white rounded-2xl overflow-hidden">
-                    <Table containerClassName="max-h-[calc(100vh-250px)] overflow-y-auto">
+            <div className="p-4 md:p-8 space-y-4 md:space-y-8 flex-1">
+                <Card className="border-slate-200 shadow-xl shadow-slate-200/40 bg-white rounded-xl md:rounded-2xl overflow-hidden">
+                    <Table containerClassName="max-h-[calc(100vh-220px)] overflow-y-auto">
                         <TableHeader className="bg-slate-50/50 sticky top-0 z-20">
                             <TableRow className="hover:bg-transparent border-slate-100">
-                                <TableHead className="sticky top-0 z-10 bg-slate-50 font-bold text-slate-500 text-[10px] uppercase tracking-widest h-12 pl-10 w-[30%] text-left shadow-[0_1px_rgba(0,0,0,0.05)]">Registry Item</TableHead>
-                                <TableHead className="sticky top-0 z-10 bg-slate-50 font-bold text-slate-500 text-[10px] uppercase tracking-widest h-12 px-6 w-[15%] text-left shadow-[0_1px_rgba(0,0,0,0.05)]">Submitted On</TableHead>
-                                <TableHead className="sticky top-0 z-10 bg-slate-50 font-bold text-slate-500 text-[10px] uppercase tracking-widest h-12 px-6 w-[10%] text-left shadow-[0_1px_rgba(0,0,0,0.05)]">Stones</TableHead>
-                                <TableHead className="sticky top-0 z-10 bg-slate-50 font-bold text-slate-500 text-[10px] uppercase tracking-widest h-12 px-6 w-[15%] text-left shadow-[0_1px_rgba(0,0,0,0.05)]">Detailed Report</TableHead>
-                                <TableHead className="sticky top-0 z-10 bg-slate-50 font-bold text-slate-500 text-[10px] uppercase tracking-widest h-12 px-6 w-[15%] text-center shadow-[0_1px_rgba(0,0,0,0.05)]">Status</TableHead>
-                                <TableHead className="sticky top-0 z-10 bg-slate-50 font-bold text-slate-500 text-[10px] uppercase tracking-widest h-12 px-6 w-[15%] text-center shadow-[0_1px_rgba(0,0,0,0.05)]">Actions</TableHead>
+                                <TableHead className="sticky top-0 z-10 bg-slate-50 font-bold text-slate-500 text-[10px] uppercase tracking-widest h-12 pl-4 md:pl-10 w-[40%] md:w-[30%] text-left shadow-[0_1px_rgba(0,0,0,0.05)]">Registry Item</TableHead>
+                                <TableHead className="sticky top-0 z-10 bg-slate-50 font-bold text-slate-500 text-[10px] uppercase tracking-widest h-12 px-3 md:px-6 w-[20%] md:w-[15%] text-left shadow-[0_1px_rgba(0,0,0,0.05)] hidden sm:table-cell">Submitted On</TableHead>
+                                <TableHead className="sticky top-0 z-10 bg-slate-50 font-bold text-slate-500 text-[10px] uppercase tracking-widest h-12 px-3 md:px-6 w-[10%] text-left shadow-[0_1px_rgba(0,0,0,0.05)]">Stones</TableHead>
+                                <TableHead className="sticky top-0 z-10 bg-slate-50 font-bold text-slate-500 text-[10px] uppercase tracking-widest h-12 px-3 md:px-6 w-[15%] text-left shadow-[0_1px_rgba(0,0,0,0.05)] hidden md:table-cell">Detailed Report</TableHead>
+                                <TableHead className="sticky top-0 z-10 bg-slate-50 font-bold text-slate-500 text-[10px] uppercase tracking-widest h-12 px-3 md:px-6 w-[15%] text-center shadow-[0_1px_rgba(0,0,0,0.05)]">Status</TableHead>
+                                <TableHead className="sticky top-0 z-10 bg-slate-50 font-bold text-slate-500 text-[10px] uppercase tracking-widest h-12 px-3 md:px-6 w-[15%] text-center shadow-[0_1px_rgba(0,0,0,0.05)]">Actions</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -391,7 +394,7 @@ export default function DashboardPage() {
                                             <div className="p-4 bg-slate-50 rounded-full">
                                                 <Database className="w-10 h-10 text-slate-200" />
                                             </div>
-                                            <p className="text-slate-400 font-bold text-sm italic">
+                                            <p className="text-slate-400 font-bold text-sm italic px-4">
                                                 {fetchError ? 'Unable to load records' : 'No records found. Click "Upload File" to begin.'}
                                             </p>
                                         </div>
@@ -400,30 +403,30 @@ export default function DashboardPage() {
                             ) : (
                                 jobs.map((job) => (
                                     <TableRow key={job.id} className="hover:bg-indigo-50/20 transition-all border-slate-50 group h-20">
-                                        <TableCell className="font-bold text-slate-900 pl-10">
-                                            <div className="flex items-center gap-4">
-                                                <div className="w-9 h-9 rounded-xl bg-indigo-50 flex items-center justify-center group-hover:bg-indigo-100 transition-colors">
-                                                    <FileText className="w-4.5 h-4.5 text-indigo-500" />
+                                        <TableCell className="font-bold text-slate-900 pl-4 md:pl-10">
+                                            <div className="flex items-center gap-2 md:gap-4">
+                                                <div className="w-8 h-8 md:w-9 md:h-9 rounded-lg md:rounded-xl bg-indigo-50 flex items-center justify-center group-hover:bg-indigo-100 transition-colors shrink-0">
+                                                    <FileText className="w-4 md:w-4.5 h-4 md:h-4.5 text-indigo-500" />
                                                 </div>
                                                 <div className="flex flex-col overflow-hidden">
-                                                    <span className="truncate max-w-[280px] text-sm tracking-tight">{job.fileName || 'Unnamed File'}</span>
-                                                    <span className="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">ID: #{job.id.toString().padStart(4, '0')}</span>
+                                                    <span className="truncate max-w-[120px] sm:max-w-[200px] md:max-w-[280px] text-xs md:text-sm tracking-tight">{job.fileName || 'Unnamed File'}</span>
+                                                    <span className="text-[9px] md:text-[10px] text-slate-400 font-bold uppercase tracking-tighter">ID: #{job.id.toString().padStart(4, '0')}</span>
                                                 </div>
                                             </div>
                                         </TableCell>
-                                        <TableCell className="text-slate-500 font-bold text-xs px-6 italic">
+                                        <TableCell className="text-slate-500 font-bold text-[10px] md:text-xs px-3 md:px-6 italic hidden sm:table-cell">
                                             {isMounted && job.createdAt ? new Date(job.createdAt).toLocaleDateString(undefined, {
                                                 day: 'numeric',
                                                 month: 'short',
                                                 year: 'numeric'
                                             }) : '...'}
                                         </TableCell>
-                                        <TableCell className="px-6 text-left">
-                                            <span className="font-black text-sm text-slate-900 bg-slate-100 px-3 py-1 rounded-lg">
+                                        <TableCell className="px-3 md:px-6 text-left">
+                                            <span className="font-black text-xs md:text-sm text-slate-900 bg-slate-100 px-2 md:px-3 py-1 rounded-lg">
                                                 {job.totalStones || 0}
                                             </span>
                                         </TableCell>
-                                        <TableCell className="px-6 text-left">
+                                        <TableCell className="px-3 md:px-6 text-left hidden md:table-cell">
                                             <HoverCard openDelay={100} closeDelay={100}>
                                                 <HoverCardTrigger asChild>
                                                     <div className="inline-flex items-center h-10 px-3 gap-3 text-slate-600 hover:text-indigo-600 hover:bg-white border border-transparent hover:border-indigo-100 rounded-xl group/btn transition-all cursor-pointer shadow-none hover:shadow-sm">
