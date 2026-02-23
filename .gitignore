@@ -47,6 +47,8 @@ apps/server/generated/*
 # SQLite database
 *.sqlite
 *.sqlite-journal
+*.sqlite-wal
+*.sqlite-shm
 
 # IDEs
 .vscode/
